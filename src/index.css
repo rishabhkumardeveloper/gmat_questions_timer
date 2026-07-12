@@ -105,9 +105,145 @@ button {
   }
 }
 
+/* Compact, touch-friendly Page Timer layout on phones */
 @media (max-width: 640px) {
+  nav {
+    padding-top: max(0.65rem, env(safe-area-inset-top)) !important;
+  }
+
+  nav > div {
+    display: grid !important;
+    grid-template-columns: 1fr;
+    gap: 0.65rem !important;
+  }
+
+  nav > div > div:last-child {
+    display: grid !important;
+    width: 100%;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  nav button {
+    min-width: 0;
+    padding-inline: 0.75rem !important;
+  }
+
+  main:has(> header + div.grid) {
+    padding: 1rem !important;
+    padding-bottom: max(1rem, env(safe-area-inset-bottom)) !important;
+  }
+
+  main:has(> header + div.grid) > header {
+    margin-bottom: 1rem !important;
+  }
+
+  main:has(> header + div.grid) > header p:first-child {
+    margin-bottom: 0.35rem !important;
+    font-size: 0.72rem !important;
+    letter-spacing: 0.18em !important;
+  }
+
   main:has(> header + div.grid) > header h1 {
-    font-size: 2.35rem !important;
-    line-height: 1.05 !important;
+    max-width: 22rem;
+    font-size: clamp(1.9rem, 9vw, 2.35rem) !important;
+    line-height: 1.02 !important;
+  }
+
+  main:has(> header + div.grid) > header p:last-child {
+    margin-top: 0.65rem !important;
+    font-size: 0.92rem !important;
+    line-height: 1.5 !important;
+  }
+
+  main:has(> header + div.grid) > div.grid {
+    gap: 1rem !important;
+  }
+
+  main:has(> header + div.grid) > div.grid > section:first-child {
+    padding: 1rem !important;
+    border-radius: 1.5rem !important;
+  }
+
+  main:has(> header + div.grid) > div.grid > section:first-child > div:first-child {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) !important;
+    gap: 0.75rem !important;
+  }
+
+  main:has(> header + div.grid) > div.grid > section:first-child > div:first-child > label:first-child {
+    grid-column: 1 / -1;
+  }
+
+  main:has(> header + div.grid) > div.grid > section:first-child label span {
+    margin-bottom: 0.35rem !important;
+    font-size: 0.75rem !important;
+  }
+
+  main:has(> header + div.grid) > div.grid > section:first-child input,
+  main:has(> header + div.grid) > div.grid > section:first-child select,
+  main:has(> header + div.grid) > div.grid > section:first-child label button {
+    height: 2.75rem !important;
+    min-width: 0;
+    padding-inline: 0.7rem !important;
+    font-size: 0.86rem !important;
+  }
+
+  main:has(> header + div.grid) > div.grid > section:first-child > div:nth-of-type(2) {
+    margin: 1rem 0 !important;
+    padding: 1.25rem 0.75rem !important;
+    border-radius: 1.5rem !important;
+  }
+
+  main:has(> header + div.grid) > div.grid > section:first-child > div:nth-of-type(2) p:first-child {
+    font-size: 0.72rem !important;
+    letter-spacing: 0.16em !important;
+  }
+
+  main:has(> header + div.grid) > div.grid > section:first-child > div:nth-of-type(2) div {
+    margin-top: 0.35rem !important;
+    font-size: clamp(3.5rem, 18vw, 4.5rem) !important;
+    line-height: 1 !important;
+  }
+
+  main:has(> header + div.grid) > div.grid > section:first-child > div:nth-of-type(2) p:last-child {
+    margin-top: 0.65rem !important;
+  }
+
+  main:has(> header + div.grid) > div.grid > section:first-child > div:last-child {
+    grid-template-columns: 1fr 1fr !important;
+    gap: 0.65rem !important;
+  }
+
+  main:has(> header + div.grid) > div.grid > section:first-child > div:last-child button {
+    height: 2.8rem !important;
+    min-width: 0;
+    padding-inline: 0.5rem !important;
+    font-size: 0.88rem !important;
+  }
+
+  main:has(> header + div.grid) > div.grid > section:nth-child(2) {
+    gap: 1rem !important;
+  }
+
+  main:has(> header + div.grid) > div.grid > section:nth-child(2) > div:first-child {
+    gap: 0.65rem !important;
+  }
+
+  main:has(> header + div.grid) > div.grid > section:nth-child(2) > div:first-child > div {
+    padding: 0.9rem !important;
+    border-radius: 1.25rem !important;
+  }
+
+  main:has(> header + div.grid) > div.grid > section:nth-child(2) > div:first-child > div p:first-child {
+    font-size: 0.75rem !important;
+  }
+
+  main:has(> header + div.grid) > div.grid > section:nth-child(2) > div:first-child > div p:last-child {
+    font-size: 1.65rem !important;
+    line-height: 1.1 !important;
+  }
+
+  main:has(> header + div.grid) > div.grid > section:nth-child(2) > div:last-child {
+    padding: 1rem !important;
+    border-radius: 1.5rem !important;
   }
 }
