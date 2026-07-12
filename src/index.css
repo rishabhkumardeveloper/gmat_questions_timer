@@ -165,12 +165,8 @@ button {
   }
 
   main:has(> header + div.grid) > div.grid > section:first-child > div:first-child {
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) !important;
+    grid-template-columns: minmax(0, 1fr) !important;
     gap: 0.75rem !important;
-  }
-
-  main:has(> header + div.grid) > div.grid > section:first-child > div:first-child > label:first-child {
-    grid-column: 1 / -1;
   }
 
   main:has(> header + div.grid) > div.grid > section:first-child label span {
@@ -209,7 +205,7 @@ button {
   }
 
   main:has(> header + div.grid) > div.grid > section:first-child > div:last-child {
-    grid-template-columns: 1fr 1fr !important;
+    grid-template-columns: minmax(0, 1fr) !important;
     gap: 0.65rem !important;
   }
 
