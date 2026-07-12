@@ -458,6 +458,7 @@ function PageRevisionTimer() {
       finishedAt: new Date().toISOString(),
     };
 
+    setIsRunning(false);
     setHistory((rows) => [row, ...rows]);
     setPageInput(String(currentPage + 1));
     setElapsedSeconds(0);
@@ -511,7 +512,7 @@ function PageRevisionTimer() {
   const isNearTarget = remainingSeconds > 0 && remainingSeconds <= 60;
 
   return (
-    <main className="mx-auto max-w-6xl px-4 py-6 text-slate-950 sm:px-8">
+    <main className="mx-auto max-w-6xl overflow-hidden px-4 py-6 text-slate-950 sm:px-8">
       <header className="mb-6">
         <p className="mb-2 text-sm font-bold uppercase tracking-[0.24em] text-slate-500">
           Page Revision Timer
@@ -582,12 +583,12 @@ function PageRevisionTimer() {
             </label>
           </div>
 
-          <div className="my-8 rounded-[2rem] border border-slate-200 bg-slate-50 p-8 text-center">
+          <div className="my-6 overflow-hidden rounded-[2rem] border border-slate-200 bg-slate-50 p-5 text-center sm:my-8 sm:p-8">
             <p className="text-sm font-bold uppercase tracking-[0.2em] text-slate-500">
               Revising page {currentPage}
             </p>
             <div
-              className={`mt-3 text-7xl font-black tracking-tight tabular-nums sm:text-8xl ${
+              className={`mt-3 text-[clamp(3.5rem,18vw,6rem)] font-black leading-none tracking-tight tabular-nums sm:text-8xl ${
                 isOverTarget ? "text-red-600" : "text-slate-950"
               }`}
             >
