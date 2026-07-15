@@ -9,6 +9,7 @@ html {
 body {
   margin: 0;
   min-width: 320px;
+  overflow-x: hidden;
   background: #f8fafc;
   font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 }
@@ -20,17 +21,36 @@ select {
 }
 
 button {
+  min-height: 44px;
   white-space: nowrap;
+}
+
+input,
+select {
+  min-width: 0;
+}
+
+.page-timer-main,
+.page-timer-layout,
+.page-timer-controls,
+.page-timer-results {
+  min-width: 0;
+}
+
+.page-timer-digits {
+  max-width: 100%;
+  overflow-wrap: normal;
+  font-size: clamp(3.5rem, 18vw, 6rem);
 }
 
 /* Desktop polish for the Page Revision Timer screen */
 @media (min-width: 1024px) {
-  main:has(> header + div.grid) {
+  .page-timer-main {
     max-width: 1280px !important;
     padding-top: 1.25rem !important;
   }
 
-  main:has(> header + div.grid) > header {
+  .page-timer-hero {
     margin-bottom: 1.25rem !important;
     padding: 1.5rem 1.75rem !important;
     border: 1px solid #e2e8f0;
@@ -39,22 +59,22 @@ button {
     box-shadow: 0 1px 2px rgba(15, 23, 42, 0.06);
   }
 
-  main:has(> header + div.grid) > header h1 {
+  .page-timer-hero h1 {
     max-width: 860px;
     font-size: clamp(2.4rem, 3.4vw, 3.5rem) !important;
     line-height: 1.05 !important;
   }
 
-  main:has(> header + div.grid) > header p:last-child {
+  .page-timer-hero p:last-child {
     max-width: 720px !important;
   }
 
-  main:has(> header + div.grid) > div.grid {
+  .page-timer-layout {
     grid-template-columns: 420px minmax(0, 1fr) !important;
     gap: 1.25rem !important;
   }
 
-  main:has(> header + div.grid) > div.grid > section:first-child {
+  .page-timer-controls {
     position: sticky;
     top: 1.25rem;
     align-self: start;
@@ -63,43 +83,43 @@ button {
     box-shadow: 0 14px 35px rgba(15, 23, 42, 0.08) !important;
   }
 
-  main:has(> header + div.grid) > div.grid > section:first-child label span {
+  .page-timer-controls label span {
     margin-bottom: 0.45rem !important;
     font-size: 0.82rem !important;
   }
 
-  main:has(> header + div.grid) > div.grid > section:first-child input,
-  main:has(> header + div.grid) > div.grid > section:first-child select,
-  main:has(> header + div.grid) > div.grid > section:first-child button {
+  .page-timer-controls input,
+  .page-timer-controls select,
+  .page-timer-controls button {
     font-size: 0.92rem !important;
   }
 
-  main:has(> header + div.grid) > div.grid > section:first-child > div:nth-of-type(2) {
+  .page-timer-display {
     margin: 1.25rem 0 !important;
     padding: 1.5rem !important;
     border-radius: 1.6rem !important;
   }
 
-  main:has(> header + div.grid) > div.grid > section:first-child > div:nth-of-type(2) div {
+  .page-timer-digits {
     font-size: clamp(4.5rem, 6vw, 5.5rem) !important;
     line-height: 1 !important;
   }
 
-  main:has(> header + div.grid) > div.grid > section:nth-child(2) > div:first-child {
+  .page-timer-results > div:first-child {
     gap: 0.75rem !important;
   }
 
-  main:has(> header + div.grid) > div.grid > section:nth-child(2) > div:first-child > div,
-  main:has(> header + div.grid) > div.grid > section:nth-child(2) > div:last-child {
+  .page-timer-results > div:first-child > div,
+  .page-timer-results > div:last-child {
     border: 1px solid #e2e8f0;
     box-shadow: 0 8px 24px rgba(15, 23, 42, 0.06) !important;
   }
 
-  main:has(> header + div.grid) > div.grid > section:nth-child(2) > div:first-child > div {
+  .page-timer-results > div:first-child > div {
     padding: 1.1rem !important;
   }
 
-  main:has(> header + div.grid) > div.grid > section:nth-child(2) > div:first-child > div p:last-child {
+  .page-timer-results > div:first-child > div p:last-child {
     font-size: 2rem !important;
     line-height: 1.1 !important;
   }
@@ -128,117 +148,127 @@ button {
     padding-inline: 0.75rem !important;
   }
 
-  main:has(> header + div.grid) {
+  .page-timer-main {
     padding: 1rem !important;
     padding-bottom: max(1rem, env(safe-area-inset-bottom)) !important;
   }
 
-  main:has(> header + div.grid) > header {
+  .page-timer-hero {
     margin-bottom: 1rem !important;
   }
 
-  main:has(> header + div.grid) > header p:first-child {
+  .page-timer-hero p:first-child {
     margin-bottom: 0.35rem !important;
     font-size: 0.72rem !important;
     letter-spacing: 0.18em !important;
   }
 
-  main:has(> header + div.grid) > header h1 {
+  .page-timer-hero h1 {
     max-width: 22rem;
     font-size: clamp(1.9rem, 9vw, 2.35rem) !important;
     line-height: 1.02 !important;
   }
 
-  main:has(> header + div.grid) > header p:last-child {
+  .page-timer-hero p:last-child {
     margin-top: 0.65rem !important;
     font-size: 0.92rem !important;
     line-height: 1.5 !important;
   }
 
-  main:has(> header + div.grid) > div.grid {
+  .page-timer-layout {
     gap: 1rem !important;
   }
 
-  main:has(> header + div.grid) > div.grid > section:first-child {
+  .page-timer-controls {
     padding: 1rem !important;
     border-radius: 1.5rem !important;
   }
 
-  main:has(> header + div.grid) > div.grid > section:first-child > div:first-child {
+  .page-timer-controls > div:first-child {
     grid-template-columns: minmax(0, 1fr) !important;
     gap: 0.75rem !important;
   }
 
-  main:has(> header + div.grid) > div.grid > section:first-child label span {
+  .page-timer-controls label span {
     margin-bottom: 0.35rem !important;
     font-size: 0.75rem !important;
   }
 
-  main:has(> header + div.grid) > div.grid > section:first-child input,
-  main:has(> header + div.grid) > div.grid > section:first-child select,
-  main:has(> header + div.grid) > div.grid > section:first-child label button {
+  .page-timer-controls input,
+  .page-timer-controls select,
+  .page-timer-controls label button {
     height: 2.75rem !important;
     min-width: 0;
     padding-inline: 0.7rem !important;
     font-size: 0.86rem !important;
   }
 
-  main:has(> header + div.grid) > div.grid > section:first-child > div:nth-of-type(2) {
+  .page-timer-display {
+    display: grid;
+    justify-items: center;
+    width: 100%;
     margin: 1rem 0 !important;
-    padding: 1.25rem 0.75rem !important;
+    padding: 1.1rem 0.75rem !important;
+    overflow: hidden;
     border-radius: 1.5rem !important;
   }
 
-  main:has(> header + div.grid) > div.grid > section:first-child > div:nth-of-type(2) p:first-child {
+  .page-timer-display p:first-child {
+    width: 100%;
     font-size: 0.72rem !important;
     letter-spacing: 0.16em !important;
+    text-align: center;
   }
 
-  main:has(> header + div.grid) > div.grid > section:first-child > div:nth-of-type(2) div {
+  .page-timer-digits {
+    width: 100%;
     margin-top: 0.35rem !important;
-    font-size: clamp(3.5rem, 18vw, 4.5rem) !important;
+    font-size: clamp(3rem, 17vw, 4.25rem) !important;
     line-height: 1 !important;
+    text-align: center;
   }
 
-  main:has(> header + div.grid) > div.grid > section:first-child > div:nth-of-type(2) p:last-child {
+  .page-timer-display p:last-child {
+    width: 100%;
     margin-top: 0.65rem !important;
+    text-align: center;
   }
 
-  main:has(> header + div.grid) > div.grid > section:first-child > div:last-child {
+  .page-timer-controls > div:last-child {
     grid-template-columns: minmax(0, 1fr) !important;
     gap: 0.65rem !important;
   }
 
-  main:has(> header + div.grid) > div.grid > section:first-child > div:last-child button {
+  .page-timer-controls > div:last-child button {
     height: 2.8rem !important;
     min-width: 0;
     padding-inline: 0.5rem !important;
     font-size: 0.88rem !important;
   }
 
-  main:has(> header + div.grid) > div.grid > section:nth-child(2) {
+  .page-timer-results {
     gap: 1rem !important;
   }
 
-  main:has(> header + div.grid) > div.grid > section:nth-child(2) > div:first-child {
+  .page-timer-results > div:first-child {
     gap: 0.65rem !important;
   }
 
-  main:has(> header + div.grid) > div.grid > section:nth-child(2) > div:first-child > div {
+  .page-timer-results > div:first-child > div {
     padding: 0.9rem !important;
     border-radius: 1.25rem !important;
   }
 
-  main:has(> header + div.grid) > div.grid > section:nth-child(2) > div:first-child > div p:first-child {
+  .page-timer-results > div:first-child > div p:first-child {
     font-size: 0.75rem !important;
   }
 
-  main:has(> header + div.grid) > div.grid > section:nth-child(2) > div:first-child > div p:last-child {
+  .page-timer-results > div:first-child > div p:last-child {
     font-size: 1.65rem !important;
     line-height: 1.1 !important;
   }
 
-  main:has(> header + div.grid) > div.grid > section:nth-child(2) > div:last-child {
+  .page-timer-results > div:last-child {
     padding: 1rem !important;
     border-radius: 1.5rem !important;
   }
