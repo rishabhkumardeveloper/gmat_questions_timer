@@ -512,8 +512,8 @@ function PageRevisionTimer() {
   const isNearTarget = remainingSeconds > 0 && remainingSeconds <= 60;
 
   return (
-    <main className="mx-auto max-w-6xl overflow-hidden px-4 py-6 text-slate-950 sm:px-8">
-      <header className="mb-6">
+    <main className="page-timer-main mx-auto max-w-6xl px-4 py-6 text-slate-950 sm:px-8">
+      <header className="page-timer-hero mb-6">
         <p className="mb-2 text-sm font-bold uppercase tracking-[0.24em] text-slate-500">
           Page Revision Timer
         </p>
@@ -525,8 +525,8 @@ function PageRevisionTimer() {
         </p>
       </header>
 
-      <div className="grid gap-6 lg:grid-cols-[0.9fr_1.1fr]">
-        <section className="rounded-3xl bg-white p-6 shadow-xl sm:p-8">
+      <div className="page-timer-layout grid gap-6 lg:grid-cols-[0.9fr_1.1fr]">
+        <section className="page-timer-controls rounded-3xl bg-white p-6 shadow-xl sm:p-8">
           <div className="grid gap-4 sm:grid-cols-2">
             <label className="block sm:col-span-2">
               <span className="mb-2 block text-sm font-bold text-slate-600">Subject / book / chapter</span>
@@ -583,12 +583,12 @@ function PageRevisionTimer() {
             </label>
           </div>
 
-          <div className="my-6 overflow-hidden rounded-[2rem] border border-slate-200 bg-slate-50 p-5 text-center sm:my-8 sm:p-8">
+          <div className="page-timer-display my-6 rounded-[2rem] border border-slate-200 bg-slate-50 p-5 text-center sm:my-8 sm:p-8">
             <p className="text-sm font-bold uppercase tracking-[0.2em] text-slate-500">
               Revising page {currentPage}
             </p>
             <div
-              className={`mt-3 text-[clamp(3.5rem,18vw,6rem)] font-black leading-none tracking-tight tabular-nums sm:text-8xl ${
+              className={`page-timer-digits mt-3 font-black leading-none tracking-tight tabular-nums ${
                 isOverTarget ? "text-red-600" : "text-slate-950"
               }`}
             >
@@ -640,7 +640,7 @@ function PageRevisionTimer() {
           </div>
         </section>
 
-        <section className="space-y-6">
+        <section className="page-timer-results space-y-6">
           <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
             <div className="rounded-3xl bg-white p-5 shadow-lg">
               <p className="text-sm font-semibold text-slate-500">Pages done</p>
