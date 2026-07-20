@@ -388,7 +388,7 @@ function PageRevisionTimer() {
   const [subject, setSubject] = useState("General Revision");
   const [pageInput, setPageInput] = useState("1");
   const [minutesInput, setMinutesInput] = useState("5");
-  const [mode, setMode] = useState("countdown");
+  const [mode, setMode] = useState("auto-start");
   const [isRunning, setIsRunning] = useState(false);
   const [elapsedSeconds, setElapsedSeconds] = useState(0);
   const [history, setHistory] = useState([]);
@@ -431,7 +431,6 @@ function PageRevisionTimer() {
   useEffect(() => {
     if (
       soundOn &&
-      mode === "countdown" &&
       isRunning &&
       elapsedSeconds >= targetSeconds &&
       !notifiedForCurrentPage
@@ -439,7 +438,7 @@ function PageRevisionTimer() {
       beep();
       setNotifiedForCurrentPage(true);
     }
-  }, [elapsedSeconds, isRunning, mode, notifiedForCurrentPage, soundOn, targetSeconds]);
+  }, [elapsedSeconds, isRunning, notifiedForCurrentPage, soundOn, targetSeconds]);
 
   function resetCurrentPage() {
     setIsRunning(false);
@@ -458,7 +457,7 @@ function PageRevisionTimer() {
       finishedAt: new Date().toISOString(),
     };
 
-    setIsRunning(false);
+    setIsRunning(status === "Done" && mode === "auto-start");
     setHistory((rows) => [row, ...rows]);
     setPageInput(String(currentPage + 1));
     setElapsedSeconds(0);
@@ -506,8 +505,7 @@ function PageRevisionTimer() {
     }
   }
 
-  const displayTime =
-    mode === "countdown" ? formatTime(Math.abs(remainingSeconds)) : formatTime(elapsedSeconds);
+  const displayTime = formatTime(Math.abs(remainingSeconds));
   const isOverTarget = elapsedSeconds > targetSeconds;
   const isNearTarget = remainingSeconds > 0 && remainingSeconds <= 60;
 
@@ -567,9 +565,14 @@ function PageRevisionTimer() {
                 onChange={(event) => setMode(event.target.value)}
                 className="h-11 w-full rounded-xl border border-slate-200 px-3 font-semibold outline-none focus:border-slate-500"
               >
-                <option value="countdown">Countdown from target</option>
-                <option value="stopwatch">Stopwatch only</option>
+                <option value="auto-start">Auto-start next page (default)</option>
+                <option value="countdown">Countdown from target (manual next-page start)</option>
               </select>
+              <p className="mt-2 text-xs font-semibold leading-5 text-slate-500">
+                {mode === "auto-start"
+                  ? "Marking a page done immediately starts the same countdown for the next page."
+                  : "Marking a page done stops the timer; start the next page manually."}
+              </p>
             </label>
 
             <label className="block">
@@ -603,11 +606,9 @@ function PageRevisionTimer() {
                   : "text-emerald-700"
               }`}
             >
-              {mode === "countdown"
-                ? isOverTarget
-                  ? `${formatTime(Math.abs(remainingSeconds))} over target`
-                  : `${formatTime(remainingSeconds)} left for target`
-                : `Target: ${formatTime(targetSeconds)} per page`}
+              {isOverTarget
+                ? `${formatTime(Math.abs(remainingSeconds))} over target`
+                : `${formatTime(remainingSeconds)} left for target`}
             </p>
           </div>
 
