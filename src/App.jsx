@@ -56,12 +56,15 @@ function getCurrentTool() {
 
 function ToolNavigation({ activeTool, onNavigate }) {
   const baseButton =
-    "rounded-full px-4 py-2 text-sm font-black transition sm:px-5";
+    "tool-navigation-button rounded-full px-4 py-2 text-sm font-black transition sm:px-5";
 
   return (
-    <nav className="border-b border-slate-200 bg-white/90 px-4 py-3 backdrop-blur sm:px-8">
-      <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-3">
-        <div>
+    <nav
+      className="tool-navigation border-b border-slate-200 bg-white/90 px-4 py-3 backdrop-blur sm:px-8"
+      aria-label="Practice tools"
+    >
+      <div className="tool-navigation-inner mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-3">
+        <div className="tool-navigation-brand">
           <p className="text-sm font-black uppercase tracking-[0.22em] text-slate-500">
             Practice Timers
           </p>
@@ -70,9 +73,10 @@ function ToolNavigation({ activeTool, onNavigate }) {
           </p>
         </div>
 
-        <div className="grid w-full grid-cols-3 rounded-2xl bg-slate-100 p-1 sm:w-auto sm:rounded-full">
+        <div className="tool-navigation-tabs grid w-full grid-cols-3 rounded-2xl bg-slate-100 p-1 sm:w-auto sm:rounded-full">
           <button
             onClick={() => onNavigate("/")}
+            aria-current={activeTool === "gmat" ? "page" : undefined}
             className={`${baseButton} ${
               activeTool === "gmat"
                 ? "bg-slate-950 text-white shadow-sm"
@@ -83,7 +87,8 @@ function ToolNavigation({ activeTool, onNavigate }) {
           </button>
           <button
             onClick={() => onNavigate("/quiz")}
-            className={`${baseButton} px-2 sm:px-5 ${
+            aria-current={activeTool === "quiz" ? "page" : undefined}
+            className={`${baseButton} tool-navigation-quiz px-2 sm:px-5 ${
               activeTool === "quiz"
                 ? "bg-slate-950 text-white shadow-sm"
                 : "text-slate-600 hover:text-slate-950"
@@ -93,6 +98,7 @@ function ToolNavigation({ activeTool, onNavigate }) {
           </button>
           <button
             onClick={() => onNavigate("/page-timer")}
+            aria-current={activeTool === "page" ? "page" : undefined}
             className={`${baseButton} ${
               activeTool === "page"
                 ? "bg-slate-950 text-white shadow-sm"
