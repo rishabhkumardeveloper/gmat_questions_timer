@@ -1,0 +1,341 @@
+PDF-TO-GMAT-QUIZ JSON EXTRACTION PROMPT
+
+You are a document-to-JSON extraction engine. I am attaching a PDF that contains GMAT-style questions, answer choices, correct answers, and sometimes explanations.
+
+Your task is to extract the questions into the exact JSON contract below so that a browser application can import the result.
+
+IMPORTANT OUTPUT RULES
+
+1. Return exactly one valid JSON object.
+2. Do not wrap the JSON in Markdown or triple backticks.
+3. Do not add any prose before or after the JSON.
+4. Use schemaVersion exactly: "gmat-quiz@1".
+5. Preserve the original question, passage, answer-choice, and explanation wording as faithfully as possible.
+6. Read the PDF visually as well as textually. The PDF may consist of screenshots.
+7. Do not include interface text such as:
+   - “This is incorrect”
+   - confidence ratings
+   - navigation labels
+   - question counters
+   - usernames
+   - website headers
+   - selected-answer UI
+   unless that text is part of the actual question.
+8. De-duplicate repeated questions.
+9. Preserve source order.
+10. Use the PDF’s displayed page number as sourceRef.pdfPage.
+11. Never fabricate a missing passage, option, correct answer, table value, or explanation.
+12. Prefer an explicitly stated official answer over a user-selected answer.
+13. Determine the correct answer only when it is explicitly supported by at least one of:
+   - an official-answer statement;
+   - an unambiguous correct-answer highlight plus surrounding explanation;
+   - an explanation that explicitly identifies the correct option.
+14. When the correct answer is explicit, set:
+   - status: "ready"
+   - answerOrigin: "explicit_in_pdf"
+   - confidence: a number from 0 to 1
+15. When a correct answer is missing or ambiguous:
+   - set status: "needs_review"
+   - set correctAnswer to null
+   - set answerOrigin: "unknown"
+   - explain the ambiguity briefly in reviewNotes
+   - do not guess
+16. For Reading Comprehension:
+   - create one passage object;
+   - remove duplicate copies of the same passage;
+   - make each RC question reference passageId.
+17. For repeated Data Insights source material:
+   - create one stimulus object;
+   - make related questions reference stimulusId.
+18. Reconstruct clearly readable tables as structured JSON.
+19. When a chart or image cannot be represented faithfully from the PDF:
+   - keep a concise visualDescription if useful;
+   - mark dependent questions "needs_review";
+   - do not invent numerical values.
+20. Imported content must be plain text. Do not output HTML.
+21. Use "\n" inside JSON strings for paragraph breaks.
+22. Option IDs must be stable uppercase labels such as A, B, C, D, E.
+23. All IDs must be unique and deterministic:
+   - passage-001
+   - stimulus-001
+   - q-001
+24. Do not include legacy Sentence Correction or Quantitative Comparison in current official-mode metadata, but you may classify them as SC_LEGACY or QC_LEGACY for custom practice.
+25. Before returning the JSON, silently verify:
+   - JSON parses;
+   - all referenced IDs exist;
+   - all ready answers reference valid option IDs;
+   - RC questions have a passageId;
+   - no duplicate IDs exist;
+   - no trailing commas exist.
+
+CURRENT GMAT TAXONOMY
+
+Sections:
+- QUANT
+- VERBAL
+- DI
+
+Question types:
+- PS
+- CR
+- RC
+- DS
+- MSR
+- TA
+- GI
+- TPA
+- SC_LEGACY
+- QC_LEGACY
+
+Response types:
+- single_choice
+- multi_select
+- statement_matrix
+- two_part
+- dropdown_blanks
+
+Use these normal mappings:
+- PS → QUANT + single_choice
+- CR → VERBAL + single_choice
+- RC → VERBAL + single_choice + passageId
+- DS → DI + single_choice
+- MSR → DI + one of the supported response types + stimulusId
+- TA → DI + statement_matrix + stimulusId
+- GI → DI + dropdown_blanks + stimulusId
+- TPA → DI + two_part
+- SC_LEGACY → VERBAL + single_choice
+- QC_LEGACY → QUANT + single_choice
+
+ROOT JSON SHAPE
+
+{
+  "schemaVersion": "gmat-quiz@1",
+  "metadata": {
+    "title": "A concise title inferred from the PDF",
+    "description": "A concise description",
+    "sourceLabel": "The PDF filename or visible document title",
+    "createdBy": "LLM PDF extraction",
+    "language": "en",
+    "sectionHint": "QUANT, VERBAL, DI, or MIXED",
+    "copyrightNotice": "User-supplied material; for authorized personal use only."
+  },
+  "assets": [],
+  "passages": [],
+  "stimuli": [],
+  "questions": []
+}
+
+PASSAGE SHAPE
+
+{
+  "id": "passage-001",
+  "title": null,
+  "text": "Full passage text with paragraph breaks.",
+  "sourceRef": {
+    "pdfPage": 7,
+    "label": "PDF page 7"
+  }
+}
+
+STIMULUS SHAPE
+
+{
+  "id": "stimulus-001",
+  "title": "Optional title",
+  "kind": "multi_source",
+  "sources": [
+    {
+      "id": "source-a",
+      "label": "Article 1",
+      "format": "text",
+      "text": "Source text"
+    },
+    {
+      "id": "source-b",
+      "label": "Data table",
+      "format": "table",
+      "table": {
+        "columns": ["Column 1", "Column 2"],
+        "rows": [
+          ["Value 1", "Value 2"]
+        ]
+      }
+    }
+  ],
+  "visualDescription": null,
+  "sourceRef": {
+    "pdfPage": 8,
+    "label": "PDF page 8"
+  }
+}
+
+ORDINARY SINGLE-CHOICE QUESTION SHAPE
+
+{
+  "id": "q-001",
+  "section": "VERBAL",
+  "type": "CR",
+  "responseType": "single_choice",
+  "passageId": null,
+  "stimulusId": null,
+  "stem": "Question stem",
+  "instruction": null,
+  "options": [
+    {"id": "A", "text": "Option A"},
+    {"id": "B", "text": "Option B"},
+    {"id": "C", "text": "Option C"},
+    {"id": "D", "text": "Option D"},
+    {"id": "E", "text": "Option E"}
+  ],
+  "statements": [],
+  "tasks": [],
+  "blanks": [],
+  "correctAnswer": {
+    "optionIds": ["B"]
+  },
+  "explanation": {
+    "summary": "Why the credited answer is correct.",
+    "optionExplanations": {
+      "A": "Why A is not credited.",
+      "B": "Why B is credited.",
+      "C": "Why C is not credited.",
+      "D": "Why D is not credited.",
+      "E": "Why E is not credited."
+    }
+  },
+  "difficulty": "unknown",
+  "tags": ["argument-evaluation"],
+  "status": "ready",
+  "answerOrigin": "explicit_in_pdf",
+  "confidence": 0.98,
+  "reviewNotes": null,
+  "sourceRef": {
+    "pdfPage": 1,
+    "label": "PDF page 1"
+  }
+}
+
+READING COMPREHENSION QUESTION
+
+Use the same single-choice shape, with:
+- type: "RC"
+- section: "VERBAL"
+- passageId set to an existing passage ID
+- do not repeat the passage inside stem
+
+DATA SUFFICIENCY
+
+Use:
+- section: "DI"
+- type: "DS"
+- responseType: "single_choice"
+
+Use these standard option IDs and text when the PDF uses the standard format:
+
+A. Statement (1) ALONE is sufficient, but statement (2) alone is not sufficient.
+B. Statement (2) ALONE is sufficient, but statement (1) alone is not sufficient.
+C. BOTH statements TOGETHER are sufficient, but NEITHER statement ALONE is sufficient.
+D. EACH statement ALONE is sufficient.
+E. Statements (1) and (2) TOGETHER are not sufficient.
+
+MULTI-SELECT CORRECT ANSWER
+
+{
+  "correctAnswer": {
+    "optionIds": ["A", "C"]
+  }
+}
+
+STATEMENT MATRIX QUESTION
+
+{
+  "responseType": "statement_matrix",
+  "options": [
+    {"id": "YES", "text": "Yes"},
+    {"id": "NO", "text": "No"}
+  ],
+  "statements": [
+    {"id": "statement-1", "text": "First statement"},
+    {"id": "statement-2", "text": "Second statement"}
+  ],
+  "correctAnswer": {
+    "statementChoices": {
+      "statement-1": "YES",
+      "statement-2": "NO"
+    }
+  }
+}
+
+TWO-PART QUESTION
+
+{
+  "responseType": "two_part",
+  "options": [
+    {"id": "A", "text": "Shared option A"},
+    {"id": "B", "text": "Shared option B"},
+    {"id": "C", "text": "Shared option C"}
+  ],
+  "tasks": [
+    {"id": "part-1", "label": "First column", "prompt": "Choose the first value."},
+    {"id": "part-2", "label": "Second column", "prompt": "Choose the second value."}
+  ],
+  "correctAnswer": {
+    "taskChoices": {
+      "part-1": ["A"],
+      "part-2": ["C"]
+    }
+  }
+}
+
+DROPDOWN-BLANKS QUESTION
+
+{
+  "responseType": "dropdown_blanks",
+  "blanks": [
+    {
+      "id": "blank-1",
+      "label": "First blank",
+      "options": [
+        {"id": "A", "text": "Choice A"},
+        {"id": "B", "text": "Choice B"}
+      ]
+    },
+    {
+      "id": "blank-2",
+      "label": "Second blank",
+      "options": [
+        {"id": "A", "text": "Choice A"},
+        {"id": "B", "text": "Choice B"}
+      ]
+    }
+  ],
+  "correctAnswer": {
+    "blankChoices": {
+      "blank-1": "A",
+      "blank-2": "B"
+    }
+  }
+}
+
+NEEDS-REVIEW QUESTION
+
+When the answer is not explicit or a visual cannot be reconstructed reliably:
+
+{
+  "status": "needs_review",
+  "correctAnswer": null,
+  "answerOrigin": "unknown",
+  "confidence": 0,
+  "reviewNotes": "Explain exactly what is missing or ambiguous."
+}
+
+FINAL QUALITY CHECK
+
+Before outputting:
+- count the extracted questions;
+- verify every ready question is scoreable;
+- ensure no answer or explanation leaks into the stem;
+- ensure repeated RC passages are de-duplicated;
+- ensure the result is JSON only.
+
+Now process the attached PDF and return the JSON object.
