@@ -1,0 +1,4 @@
+import { OFFICIAL_PRESETS } from "../constants";
+export function compatibleQuestions(quiz, section, official=false) { return quiz.questions.filter(q=>(section==="ALL"||q.section===section)&&(!official||(q.status==="ready"&&OFFICIAL_PRESETS[section].types.includes(q.type)&&q.correctAnswer))); }
+export function countOfficialChanges(baseline, responses) { return Object.keys(baseline).filter(id=>JSON.stringify(baseline[id])!==JSON.stringify(responses[id])).length; }
+export function buildSession(quiz, config) { const pool=compatibleQuestions(quiz,config.section,config.kind==="official"); const questions=pool.slice(0,config.count); const now=Date.now(); return { id:crypto.randomUUID?.()||String(now), quizTitle:quiz.metadata.title, config, questions, responses:{}, checked:[], index:0, stage:"running", startedAt:now, savedAt:now, expiresAt:config.mode==="test"?now+config.minutes*60000:null, initialResponses:null, autoSubmitted:false }; }

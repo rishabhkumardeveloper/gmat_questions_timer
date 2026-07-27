@@ -1,4 +1,5 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
+import QuizWorkspace from "./features/quiz/QuizWorkspace";
 
 const DEFAULT_SECONDS = 135;
 const DEFAULT_QUESTIONS = 31;
@@ -48,7 +49,9 @@ function beep() {
 }
 
 function getCurrentTool() {
-  return window.location.pathname === "/page-timer" ? "page" : "gmat";
+  if (window.location.pathname === "/page-timer") return "page";
+  if (window.location.pathname === "/quiz") return "quiz";
+  return "gmat";
 }
 
 function ToolNavigation({ activeTool, onNavigate }) {
@@ -67,7 +70,7 @@ function ToolNavigation({ activeTool, onNavigate }) {
           </p>
         </div>
 
-        <div className="flex rounded-full bg-slate-100 p-1">
+        <div className="grid w-full grid-cols-3 rounded-2xl bg-slate-100 p-1 sm:w-auto sm:rounded-full">
           <button
             onClick={() => onNavigate("/")}
             className={`${baseButton} ${
@@ -77,6 +80,16 @@ function ToolNavigation({ activeTool, onNavigate }) {
             }`}
           >
             GMAT Timer
+          </button>
+          <button
+            onClick={() => onNavigate("/quiz")}
+            className={`${baseButton} px-2 sm:px-5 ${
+              activeTool === "quiz"
+                ? "bg-slate-950 text-white shadow-sm"
+                : "text-slate-600 hover:text-slate-950"
+            }`}
+          >
+            Quiz Builder
           </button>
           <button
             onClick={() => onNavigate("/page-timer")}
@@ -765,7 +778,7 @@ export default function App() {
   return (
     <div className="min-h-screen bg-slate-50">
       <ToolNavigation activeTool={activeTool} onNavigate={navigate} />
-      {activeTool === "page" ? <PageRevisionTimer /> : <GMATQuestionTimer />}
+      {activeTool === "page" ? <PageRevisionTimer /> : activeTool === "quiz" ? <QuizWorkspace /> : <GMATQuestionTimer />}
     </div>
   );
 }
