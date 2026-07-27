@@ -1,0 +1,234 @@
+{
+  "schemaVersion": "gmat-quiz@1",
+  "metadata": {
+    "title": "Synthetic GMAT Import Sample",
+    "description": "A small, original dataset used to test the JSON importer.",
+    "sourceLabel": "sample-gmat-quiz.json",
+    "createdBy": "Project sample",
+    "language": "en",
+    "sectionHint": "MIXED",
+    "copyrightNotice": "Synthetic original content for software testing."
+  },
+  "assets": [],
+  "passages": [
+    {
+      "id": "passage-001",
+      "title": null,
+      "text": "A regional transit agency introduced express buses on two routes. Ridership increased on both routes, but the agency also reduced fares during the same month. Analysts therefore cautioned that the ridership increase could not yet be attributed solely to faster service.",
+      "sourceRef": {
+        "pdfPage": 1,
+        "label": "Synthetic sample page 1"
+      }
+    }
+  ],
+  "stimuli": [
+    {
+      "id": "stimulus-001",
+      "title": "Quarterly output",
+      "kind": "table",
+      "sources": [
+        {
+          "id": "source-a",
+          "label": "Output table",
+          "format": "table",
+          "table": {
+            "columns": [
+              "Quarter",
+              "Units"
+            ],
+            "rows": [
+              [
+                "Q1",
+                "120"
+              ],
+              [
+                "Q2",
+                "150"
+              ],
+              [
+                "Q3",
+                "140"
+              ]
+            ]
+          }
+        }
+      ],
+      "visualDescription": null,
+      "sourceRef": {
+        "pdfPage": 2,
+        "label": "Synthetic sample page 2"
+      }
+    }
+  ],
+  "questions": [
+    {
+      "id": "q-001",
+      "section": "VERBAL",
+      "type": "CR",
+      "responseType": "single_choice",
+      "passageId": null,
+      "stimulusId": null,
+      "stem": "A company concludes that a new training course caused productivity to rise because productivity was higher in the month after the course. Which fact most weakens the conclusion?",
+      "instruction": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "Most employees completed the course."
+        },
+        {
+          "id": "B",
+          "text": "The company installed faster equipment during the same month."
+        },
+        {
+          "id": "C",
+          "text": "The course lasted two days."
+        },
+        {
+          "id": "D",
+          "text": "Managers supported the course."
+        },
+        {
+          "id": "E",
+          "text": "Productivity is measured monthly."
+        }
+      ],
+      "statements": [],
+      "tasks": [],
+      "blanks": [],
+      "correctAnswer": {
+        "optionIds": [
+          "B"
+        ]
+      },
+      "explanation": {
+        "summary": "The faster equipment is an alternative cause of the productivity increase.",
+        "optionExplanations": {
+          "B": "It directly introduces a competing explanation."
+        }
+      },
+      "difficulty": "medium",
+      "tags": [
+        "causation",
+        "weaken"
+      ],
+      "status": "ready",
+      "answerOrigin": "explicit_in_pdf",
+      "confidence": 1,
+      "reviewNotes": null,
+      "sourceRef": {
+        "pdfPage": 1,
+        "label": "Synthetic sample page 1"
+      }
+    },
+    {
+      "id": "q-002",
+      "section": "VERBAL",
+      "type": "RC",
+      "responseType": "single_choice",
+      "passageId": "passage-001",
+      "stimulusId": null,
+      "stem": "The analysts' caution is based primarily on which concern?",
+      "instruction": null,
+      "options": [
+        {
+          "id": "A",
+          "text": "The routes served different neighborhoods."
+        },
+        {
+          "id": "B",
+          "text": "The fare reduction provides an alternative explanation for increased ridership."
+        },
+        {
+          "id": "C",
+          "text": "Express buses are more expensive to operate."
+        },
+        {
+          "id": "D",
+          "text": "Ridership declined before the change."
+        },
+        {
+          "id": "E",
+          "text": "The agency did not measure travel time."
+        }
+      ],
+      "statements": [],
+      "tasks": [],
+      "blanks": [],
+      "correctAnswer": {
+        "optionIds": [
+          "B"
+        ]
+      },
+      "explanation": {
+        "summary": "The passage explicitly identifies the simultaneous fare reduction as a competing cause.",
+        "optionExplanations": {}
+      },
+      "difficulty": "easy",
+      "tags": [
+        "supporting-idea"
+      ],
+      "status": "ready",
+      "answerOrigin": "explicit_in_pdf",
+      "confidence": 1,
+      "reviewNotes": null,
+      "sourceRef": {
+        "pdfPage": 1,
+        "label": "Synthetic sample page 1"
+      }
+    },
+    {
+      "id": "q-003",
+      "section": "DI",
+      "type": "TA",
+      "responseType": "statement_matrix",
+      "passageId": null,
+      "stimulusId": "stimulus-001",
+      "stem": "For each statement, select Yes if it is supported by the table and No otherwise.",
+      "instruction": "Select one answer in each row.",
+      "options": [
+        {
+          "id": "YES",
+          "text": "Yes"
+        },
+        {
+          "id": "NO",
+          "text": "No"
+        }
+      ],
+      "statements": [
+        {
+          "id": "statement-1",
+          "text": "Q2 had the highest output."
+        },
+        {
+          "id": "statement-2",
+          "text": "Output increased in every quarter."
+        }
+      ],
+      "tasks": [],
+      "blanks": [],
+      "correctAnswer": {
+        "statementChoices": {
+          "statement-1": "YES",
+          "statement-2": "NO"
+        }
+      },
+      "explanation": {
+        "summary": "Q2 is highest at 150 units, while Q3 falls to 140.",
+        "optionExplanations": {}
+      },
+      "difficulty": "easy",
+      "tags": [
+        "table-analysis"
+      ],
+      "status": "ready",
+      "answerOrigin": "explicit_in_pdf",
+      "confidence": 1,
+      "reviewNotes": null,
+      "sourceRef": {
+        "pdfPage": 2,
+        "label": "Synthetic sample page 2"
+      }
+    }
+  ]
+}
